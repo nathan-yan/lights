@@ -69,7 +69,7 @@ class Polygon(Box):
 
 class Character:
     def __init__(self):
-        pass
+        self.position = [20, 400]
 
 if __name__ == "__main__":
     pygame.init()
@@ -78,15 +78,16 @@ if __name__ == "__main__":
 
     screen = pygame.display.set_mode((700, 700))
 
-    illumination = pygame.Surface((300, 300))
-    shadow = pygame.Surface((300, 300))
+    illumination = pygame.Surface((500, 500))
+    shadow = pygame.Surface((500, 500))
+    shadow.blit(gradients.radial(250, (255, 255, 255, 255), (0, 0, 0, 255)), (0, 0))
 
     boxes = [
         Box(250, 250, 50, 50),
         Box(50, 100, 20, 50),
         Box(400, 250, 50, 50),
         Box(250, 50, 30, 30),
-        Box(-1, -1, 502, 502, boundary = True),
+        Box(-1, -1, 800, 802),
         Polygon((
             (200, 300),
             (200, 350),
@@ -95,6 +96,9 @@ if __name__ == "__main__":
             (220, 320),
             (220, 300)
         )),
+
+        Box(000, 500, 300, 200),
+        Box(400, 500, 300, 200),
 
     ]
 
@@ -174,7 +178,7 @@ if __name__ == "__main__":
             if p != 0:
                 #pygame.draw.line(screen, (100 + int(100 * p / len(points)), 100, 100), cursor.astype(int), min_point)
 
-                pygame.draw.polygon(illumination, (255, 255, 255), [[150, 150], np.array(min_point) - cursor + 150, prev - cursor + 150])
+                pygame.draw.polygon(illumination, (255, 255, 255), [[250, 250], np.array(min_point) - cursor + 250, prev - cursor + 250])
             prev = min_point
 
             #previous = np.asarray(min_point)
@@ -182,10 +186,9 @@ if __name__ == "__main__":
         
         #print(points_no_intersect) 
 
-        shadow.blit(gradients.radial(150, (255, 255, 255, 255), (0, 0, 0, 255)), (0, 0))
         illumination.blit(shadow, (0, 0), special_flags = pygame.BLEND_MULT)
 
-        screen.blit(illumination, cursor.astype(int) - 150,)
+        screen.blit(illumination, cursor.astype(int) - 250,)
 
 
         pygame.display.flip()
